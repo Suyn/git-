@@ -57,11 +57,21 @@ git checkout -- 文件名
 
 ### 撤销暂存区的修改
 
+即，add命令后
+
+#### 第一种(建议)
+
+~~~shell
+git checkout 版本的id 文件名
+~~~
+
+####第二种
+
 1.将暂存区的文件撤回到工作区去
 
 > git reset --hard 版本的id
 
-2.再撤销工作区的文件
+2.如有必要可以再撤销工作区的文件
 
 ~~~shell
 git checkout -- 文件名
@@ -122,6 +132,8 @@ git branch -d dev
 git branch
 ~~~
 
+注意：dev分支须在提交后，切换到master分支时才能看到与master中不一样的地方，否则在master中看到的和在dev中的没有区别
+
 ##11.推送到远程仓库
 
 ~~~shell
@@ -176,7 +188,17 @@ git push origin dev   # 这个时候没有合并到master分支，单独保存de
 
 git checkout master   # 切换到master分支，准备进行合并
 git merge dev   # 合并dev分支到master
-git branch -d dev   # 删除本地dev分支
+git branch -D dev   # 删除本地dev分支
 git push -d origin dev   # 删除远程分支
 ~~~
+
+# git暂存区
+
+假如我在一个git_test文件夹下执行了`git init`命令，那么会在该文件夹下新建一个 **.git** 的隐藏文件，此时，git_test目录下就是整个工作区，而**.git**文件夹即为版本库，其中**index**即为暂存区（或者成为stage），其中还包含了git为我们自动创建的第一个master分支，以及指向master的一个指针**HEAD**（该指针为一个概念性的指针，非C/C++中的指针）。
+
+使用**git add**指令时会将文件从工作区复制到暂存区，再使用**git commit**指令时会将文件从暂存区提交到一个新建的master版本分支中，同时指针HEAD更改为当前新的master版本分支的地址（HEAD中存储的为当前master的版本id）。
+
+每一次的修改和删除并没有进行真正的修改或删除，而是新生成一个文件，即为添加一个状态。
+
+![仓库的说明](D:\abc_python2\git\img\仓库的说明.png)
 
